@@ -1,0 +1,39 @@
+# Virtual environments
+venv/
+env/
+ENV/
+
+# macOS Finder
+.DS_Store
+
+# Python cache and artifacts
+__pycache__/
+*.py[cod]
+*.so
+
+# IPython/Jupyter
+.ipynb_checkpoints/
+
+# pytest/cache
+.pytest_cache/
+
+# PyCharm/VSCode
+.idea/
+.vscode/
+
+# TensorBoard and ML artifacts
+runs/
+mlruns/
+
+# Distribution/build
+dist/
+build/
+*.egg-info/
+
+# Keep environment and dependency specification files tracked
+!requirements.txt
+!environment.yml
+!conda.yaml
+!pyproject.toml
+!setup.cfg
+!setup.py
