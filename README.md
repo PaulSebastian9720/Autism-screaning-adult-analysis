@@ -170,9 +170,9 @@ The following table summarizes the principal performance indicators extracted fr
 | Model / Family | Accuracy  | Precision | Recall    | F1        |
 |----------------|-----------:|----------:|----------:|----------:|
 | BN_Models (Bayesian Network) | 1.0000    | 1.0000   | 1.0000   | 1.0000   |
-| ANN_Models (Artificial Neural Network) | 0.929078  | N/A      | N/A      | 0.848485 |
-| Cluster_Models (Clustering) | 0.943262  | N/A      | 0.947368 | N/A      |
-| KNN (K-Nearest Neighbors)   | 0.879433  | 1.0000   | 0.552632 | N/A      |
+| ANN_Models (Artificial Neural Network) | 0.929078  |    1.000000   | 0.736842 | 0.848485 |
+| Cluster_Models (Clustering) | 0.943262  | N/A      | 0.947368 | 0.900000 |
+| KNN (K-Nearest Neighbors)   | 0.879433  | 1.0000   | 0.552632 | 0.711864 |
 
 Notes:
 - The Bayesian Network model achieved a perfect set of metrics in the validation experiments recorded in MLflow (Accuracy, Precision, Recall, F1 == 1.0000). These results indicate complete separation/confident conditional inference on the test folds used in the experiments documented here.
