@@ -1,13 +1,20 @@
+![Autism Screening Context](_attachments/img/cabecera.png)
 
 # Autism Screening Adult — Multimodal Machine Learning Repository
 
 Introduction
 ------------
 
-[Insert Project Introduction Here]
+Autism Spectrum Disorder (ASD) is a neurodevelopmental condition characterized by persistent challenges in social interaction, communication, and behavioral flexibility. While early childhood diagnosis has been widely studied, ASD detection in adults remains a complex and underexplored problem, often affected by subtle symptom patterns, compensatory behaviors, and heterogeneous clinical presentations.
+
+This repository presents a structured and reproducible machine learning pipeline for adult ASD screening using the public *Autism Screening Adult* dataset. The project integrates exploratory data analysis, domain-driven feature engineering, dimensionality reduction through Principal Component Analysis (PCA), and a comparative evaluation of multiple modeling paradigms, including geometric (distance-based), connectionist (Artificial Neural Networks), probabilistic (Bayesian Networks), and unsupervised (clustering-based) approaches.
+
+A key contribution of this work is the explicit separation of preprocessing pipelines tailored to different modeling assumptions: continuous standardized representations for geometric models and discretized, interpretable representations for Bayesian Network inference. All experiments are fully documented and tracked using MLflow, enabling transparent comparison, reproducibility, and result auditing.
+
+The repository is designed for research, experimentation, and educational purposes, providing a complete end-to-end workflow from raw data ingestion to model evaluation and inference on new samples.
 
 **Repository overview**
-- Purpose: A structured, reproducible research pipeline to perform exploratory analysis, data engineering, and multimodal modeling for adult autism screening. The repository integrates geometric (distance-based), connectionist (ANN), probabilistic (Bayesian networks) and unsupervised (clustering) modeling paradigms, including PCA-driven dimensionality reductions and MLflow experiment tracking.
+- Purpose: A structured, reproducible research pipeline for exploratory analysis, data engineering, dimensionality reduction, and multimodal modeling applied to adult autism screening. The repository integrates geometric (distance-based), connectionist (ANN), probabilistic (Bayesian networks), and unsupervised (clustering) modeling paradigms, with PCA-driven dimensionality reduction and MLflow-based experiment tracking.
 - Contents: Jupyter notebooks for each project phase, serialized preprocessing pipelines and PCA artifacts, static HTML exports of notebooks, illustrative imagery used in analytical write-ups, and MLflow experiment artifacts in `mlruns/`.
 
 Notebook Organization
@@ -17,7 +24,7 @@ Below follows a precise technical description of the notebooks contained in `not
 - `notebooks/1_ExploratyAnaliysis.ipynb` — Exploratory Data Analysis (EDA)
 	- Technical summary: Comprehensive EDA focused on variable types, frequency statistics, visualizations for binary/questionnaire-derived features (A1–A10), demographic analysis, categorical association measures and numeric correlation analysis. This notebook prepares domain understanding and justifies the transformations and feature selections used in the preprocessing stage.
 	- Internal Table of Contents (Index) — replicated exactly:
-		- [1. Descripción del Dataset](#sec1)
+		- [1. Dataset Description](#sec1)
 		- [2. Data Upload](#sec2)
 		- [3. Data Exploration](#sec3)
 			- [3.1 Dataset structure](#sec31)
@@ -29,7 +36,7 @@ Below follows a precise technical description of the notebooks contained in `not
 		- [7. Correlation Analysis](#sec7)
 			- [7.1 Correlation Numeric Analysis](#sec71)
 			- [7.2 Asociacion Categorical Analysis](#sec72)
-		- [8. Hipótesis Iniciales](#sec8)
+		- [8. Initial Hypotheses](#sec8)
 
 - `notebooks/2_Transformations.ipynb` — Data transformations, dual-branch pipelines (geometric vs Bayesian)
 	- Technical summary: Implements a dual branch preprocessing strategy: one pipeline designed for geometric models (standardization, one-hot encoding) and another for Bayesian structural learning (ordinal encoding and discrete binning). It produces two transformed datasets (geometric and Bayesian) and serializes both pipelines. The notebook documents imputation strategy, discretization rationale, and preserves domain interpretability for the Bayesian branch.
@@ -150,10 +157,11 @@ The repository includes a curated `_attachments/` folder used to store datasets,
 Results graphics
 ------------------------
 ![Matriz confussion](_attachments/img/correlation_geometric_vs_bayesian.png)
-
+The correlation matrices show that AQ-10 questionnaire items present the strongest relationships with the ASD target, confirming that behavioral and cognitive indicators dominate the predictive signal. In contrast, demographic variables such as age, gender, and ethnicity exhibit weak correlations in both datasets. The Bayesian-transformed dataset reveals clearer and more structured associations due to discretization and ordinal encoding, facilitating interpretability and supporting probabilistic dependency modeling.
 ![Box PCA](_attachments/img/box_to_pca.png)
-
+The boxplot comparison indicates that the use of PCA does not significantly improve maximum accuracy but reduces performance variability across experiments. Models trained with PCA exhibit tighter accuracy distributions, suggesting improved stability and robustness, while non-PCA configurations show higher dispersion. This highlights PCA as a regularization and consistency-enhancing technique rather than a direct accuracy booster.
 ![Result NCompentes and PCA](_attachments/img/all_models_per_accurazy.png)
+The MLflow parallel-coordinates visualization shows that optimal accuracy is achieved with intermediate PCA configurations, typically between 15 and 20 principal components. Using too few components leads to information loss, while excessive components provide limited additional benefit. Experiments without PCA display broader accuracy dispersion, confirming that PCA contributes to controlled generalization and more reliable performance across model configurations.
 
 Model Performance & Metrics
 ---------------------------
@@ -197,9 +205,15 @@ The modeling notebook demonstrates inference on three concrete test cases and do
 	- Bayesian: Prob 100.00% → Result: Yes
 	- Interpretation: Again, the BN captures latent conditional patterns producing maximal predicted probability. KNN and ANN give low score outputs, emphasizing their sensitivity to feature density and local geometry rather than marginal conditional dependencies.
 
-Clinical & Operational Implication
----------------------------------
-The combined empirical evidence suggests that probabilistic graphical models are more sensitive for the purpose of clinical screening in this dataset: they prioritize conditional relationships and can maintain high sensitivity (recall) for atypical but clinically relevant symptom constellations. Conversely, geometric and neural methods perform well in aggregate accuracy but may miss edge cases where conditional logic triggers diagnosis.
+General Conclusions
+-------------------
+This repository presents a structured and reproducible machine learning workflow for Autism Spectrum Disorder (ASD) screening in adults. Through a phased approach combining exploratory analysis, dual-branch preprocessing, dimensionality reduction, and comparative modeling, the study demonstrates that behavioral AQ-10 features provide the strongest predictive signal, while demographic variables play a secondary role.
+
+Experimental results show that Bayesian Networks achieve the highest sensitivity and probabilistic consistency, particularly in cases with subtle or non-linearly separable patterns, while ANN and KNN models provide competitive accuracy under geometric assumptions. Clustering and PCA analyses further support the robustness and stability of the proposed methodology. Overall, this work highlights the value of combining probabilistic and geometric perspectives for adult ASD screening research.
+
+Clinical and Operational Implications
+------------------------------------
+The results suggest that probabilistic graphical models may be particularly suitable for ASD screening tasks, as they capture conditional dependencies that are not always detected by purely geometric or connectionist models. While this repository is intended for research purposes only, the findings highlight potential directions for decision-support systems, subject to proper clinical validation, ethical review, and regulatory compliance.
 
 Infrastructure & Optimizations
 ----------------------------
@@ -219,11 +233,16 @@ Contributing, Licensing and Responsible Use
 - This repository contains clinical screening research code and should be used with appropriate ethical and privacy considerations. The dataset used is publicly available as documented in the notebooks. Any deployment of screening tools to production or clinical settings must follow institutional review, validation, and regulatory requirements.
 - Contributions: open issues and pull requests are welcome. Please provide reproducible experiments and clear documentation for any additions.
 
-Contact / Further Work
-----------------------
-For clarifications regarding experiment configurations, MLflow runs, or to request additional export formats (e.g., Dockerfile, container images, or minimal reproducible environments), please open a new issue in the repository. Recommended next steps include adding a short script to reproduce a single end-to-end run and a compact `requirements-pinned.txt` to improve strict reproducibility.
+Contact and Further Work
+-----------------------
+For questions related to experiment configurations, MLflow runs, or reproduction details, please open an issue in this repository. 
+
+Future extensions of this work include the addition of a lightweight end-to-end execution script, the incorporation of pinned dependency files to ensure strict reproducibility, and the exploration of containerized environments (e.g., Docker) for deployment and evaluation consistency.
+
+References
+----------
+- UCI Machine Learning Repository. Autism Screening Adult Dataset. https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
+- Kaggle. Autism Spectrum Disorder Screening Data for Adult. https://www.kaggle.com/datasets/fabdelja/autism-screening-adult
 
 ----
-Generated and documented by project maintainers for reproducible analysis and model comparison.
-
-
+Maintained and documented to support reproducible research and comparative model analysis.
