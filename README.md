@@ -91,7 +91,7 @@ This repository is designed to be reproducible. The recommended approach below u
 1. Clone the repository (replace the remote URL with your fork/clone):
 
 ```bash
-git clone <repository-url>
+git clone "https://github.com/PaulSebastian9720/Autism-screaning-adult-analysis.git"
 cd "Practica 4"
 ```
 
@@ -146,6 +146,14 @@ The repository includes a curated `_attachments/` folder used to store datasets,
 	- `correlation_geometric_vs_bayesian.png`
 	- `correlation_vs_target_geometric_bayesian.png`
 	- `graph_bnn.png` (Bayesian network graph visualization)
+
+Results graphics
+------------------------
+![Matriz confussion](_attachments/img/correlation_geometric_vs_bayesian.png)
+
+![Box PCA](_attachments/img/box_to_pca.png)
+
+![Result NCompentes and PCA](_attachments/img/all_models_per_accurazy.png)
 
 Model Performance & Metrics
 ---------------------------
